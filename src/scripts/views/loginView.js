@@ -3,15 +3,16 @@ import ACTIONS from '../actions'
 import Header from './header'
 
 const LoginView = React.createClass({
-	render: function() {
-		return (
-			<div className="loginView">
-				<Header />
-				<RegisterBox />
-				<LoginBox />
-			</div>
-			)
-	}
+
+    render: function() {
+        return (
+            <div className="loginView">
+                <Header />
+                <RegisterBox />
+                <LoginBox />
+            </div>
+            )
+    }
 })
 
 const RegisterBox = React.createClass({
@@ -60,5 +61,6 @@ const LoginBox = React.createClass({
 			</div>
 			)
 	}
+
 })
 export default LoginView
