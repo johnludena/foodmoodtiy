@@ -13,9 +13,14 @@ authRouter
 
     User.find({email: req.body.email}, function(err, results){
 
-      if(results !== null && results.length > 0) { 
+      if (err) {
+        res.status(500).send(err)
+        return
+      }
+
+      if(results) { 
         let record = {}
-        record.msg = "record already exists" ;      
+        record.msg = "record already exists"    
         record.data = results
         res.json(record)
         return 
@@ -37,6 +42,7 @@ authRouter
   .post('/login', passport.authenticate('local'),
     function(req, res){
       if (!req.user) {
+        console.log('having a hard time here')
         res.status(500).json({
           err: 'user doesnt exist'
         })
@@ -44,6 +50,7 @@ authRouter
       else {
         let userCopy = JSON.parse(JSON.stringify(req.user))
         userCopy.password = ''
+        console.log('sending user to server')
         res.json(userCopy)        
       }
     }
