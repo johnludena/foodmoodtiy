@@ -13,20 +13,14 @@ authRouter
 
     User.find({email: req.body.email}, function(err, results){
 
-<<<<<<< HEAD
       if (err) {
         res.status(500).send(err)
         return
       }
 
-      if(results) { 
-        let record = {}
-        record.msg = "record already exists"    
-=======
       if(results !== null && results.length > 0) {
         let record = {}
-        record.msg = "record already exists" ;
->>>>>>> 88d53098887d8a832e5625c0521bb81775f27588
+        record.msg = "record already exists" 
         record.data = results
         res.json(record)
         return
@@ -56,12 +50,8 @@ authRouter
       else {
         let userCopy = JSON.parse(JSON.stringify(req.user))
         userCopy.password = ''
-<<<<<<< HEAD
         console.log('sending user to server')
         res.json(userCopy)        
-=======
-        res.json(userCopy)
->>>>>>> 88d53098887d8a832e5625c0521bb81775f27588
       }
     }
   )

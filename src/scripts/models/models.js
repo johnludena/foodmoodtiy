@@ -2,25 +2,27 @@ import Backbone from 'backbone'
 import $ from 'jquery'
 import {app_name} from '../app'
 
+const DishModel = Backbone.Model.extend({
+	urlRoot: '/api/dishes',
+	idAttribute: '_id'
+})
+
+const DishCollection = Backbone.Collection.extend({
+	model: DishModel,
+	url: '/api/dishes'
+})
+
 // ..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x
 const UserAuthModel = Backbone.Model.extend({
 	urlRoot: '/api/users',
 	idAttribute: '_id'
 })
 
-<<<<<<< HEAD
-UserAuthModel.register = function(userDataObj) {
-	return $.ajax({
-		type: 'post',
-		url: '/auth/register',
-		data: userDataObj
-=======
 UserAuthModel.register = function(userObj) { //we changed this and Justin pushed it to tiy-fullstack for later use
 	return $.ajax({
 		type: 'post',
 		url: '/auth/register',
 		data: userObj
->>>>>>> 88d53098887d8a832e5625c0521bb81775f27588
 	})
 }
 
@@ -59,4 +61,6 @@ const User = UserAuthModel.extend({
 	}
 })
 
-export { User }
+export { User, DishModel, DishCollection }
+
+

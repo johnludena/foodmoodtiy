@@ -1,45 +1,9 @@
-<<<<<<< HEAD
-import {User} from './models/models'
 
-
-const ACTIONS = {
-	registerUser: function(userObj) {
-		User.register(userObj).then(
-			// .then takes 2 callbacks, one for SUCCESS, one for FAILURE
-			(apiResponse) => {
-				this.logUserIn(userObj.email,userObj.password)
-				},
-			(resp)=> {
-				console.log(resp)
-				alert('failure to register')
-			}
-		)
-	},
-
-	logUserIn: function(email, password){
-		User.login(email,password).then(
-			(resp)=> {
-				alert(`user ${email} logged in...`)
-				console.log(resp)
-				location.hash = "home"
-			},
-			(err)=> {
-				alert('log in failed')
-				console.log('your error was >>>', err)
-			}
-		)
-
-	},
-
-	logUserOut: function(){
-		User.logout().then(function(){
-			location.hash = 'login'
-		})
-	}
-=======
 //STEP 6 (CREATE ACTIONS MODULE)
 
 import {User} from './models/models'
+import {DishModel, DishCollection} from './models/models'
+import DISH_STORE from './store'
 
 const ACTIONS = {
 
@@ -73,8 +37,47 @@ const ACTIONS = {
         User.logout().then(
             () => location.hash = 'login'
         )
+    },
+
+    saveDish: function(dishObj) {
+    	var dish = new DishModel(dishObj) 
+    	dish.save().then(
+    		(responseData) => {
+    			alert('dish saved!')
+    			console.log(responseData)
+    		},
+    		(err) => {
+    			alert('problem was happened!')
+    			console.log(err)
+    		})
+    },
+
+    fetchDishes: function(tags){
+    	DISH_STORE.data.collection.fetch({
+			data: {
+				tags: tags
+			}
+    		
+    	})
+    },
+
+    likeDish: function(dish, userObj){
+    	// modify dish, adding user ID to the likes
+    	// save dish to the server
+    	// dish.get('likes').push(userObj._id)
+    	dish.set({
+    		likes: dish.get('likes').concat(userObj._id)
+    	})
+
+    	// dish.save().then((responseData)=>{
+    	// 	let dishCollCopy = new DishCollection(DISH_STORE.data.collection.models)
+    	// 	dishCollCopy._byId[dish.id].set(responseData)
+    	// 	DISH_STORE._setStore('collection', dishCollCopy)
+    	// })
+    	dish.save()
+
+    	DISH_STORE.data.collection.fetch()
     }
->>>>>>> 88d53098887d8a832e5625c0521bb81775f27588
 }
 
 export default ACTIONS
